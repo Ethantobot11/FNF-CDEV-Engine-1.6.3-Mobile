@@ -183,6 +183,7 @@ class Better_StageEditor extends MusicBeatState
 	var unsaved:Bool = false;
 
 	public var stageDropDown:UIDropDown;
+	public var saveButton:FlxUIButton;
 
 	public function new()
 	{
@@ -223,7 +224,7 @@ class Better_StageEditor extends MusicBeatState
 		stageLabel.scrollFactor.set();
 		stageDropDown.scrollFactor.set();
 
-		var saveButton = new FlxUIButton(FlxG.width-50,FlxG.height-20,"",function(){
+		saveButton = new FlxUIButton(FlxG.width-50,FlxG.height-20,"",function(){
 			save();
 		});
 		add(saveButton);
@@ -1339,7 +1340,8 @@ class Better_StageEditor extends MusicBeatState
 	{
 		for (object in __objectButtons_array)
 		{
-			if (FlxG.mouse.overlaps(object))
+			if (FlxG.mouse.overlaps(object) || FlxG.mouse.overlaps(stageDropDown) || FlxG.mouse.overlaps(mobilePad) ||
+				FlxG.mouse.overlaps(saveButton) || FlxG.mouse.overlaps(uiBox) || FlxG.mouse.overlaps(uiBox_visible))
 				return false;
 		}
 

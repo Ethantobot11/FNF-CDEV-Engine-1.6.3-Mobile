@@ -21,7 +21,7 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Options', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Chart Editor', 'Options', 'Exit to menu'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
@@ -31,15 +31,15 @@ class PauseSubState extends MusicBeatSubstate
 
 		if (PlayState.isStoryMode){
 			if (PlayState.chartingMode){
-				menuItems = ['Resume', 'Restart Song', 'End song', 'Exit Charting Mode', 'Options', 'Exit to menu'];
+				menuItems = ['Resume', 'Restart Song', 'Chart Editor', 'End song', 'Exit Charting Mode', 'Options', 'Exit to menu'];
 			} else{
-				menuItems = ['Resume', 'Restart Song', 'Options', 'Exit to menu'];
+				menuItems = ['Resume', 'Restart Song', 'Chart Editor', 'Options', 'Exit to menu'];
 			}
 		} else{
 			if (PlayState.chartingMode){
-				menuItems = ['Resume', 'Restart Song', 'End song', 'Exit Charting Mode', 'Options', 'Exit to freeplay'];
+				menuItems = ['Resume', 'Restart Song', 'Chart Editor', 'End song', 'Exit Charting Mode', 'Options', 'Exit to freeplay'];
 			} else{
-				menuItems = ['Resume', 'Restart Song', 'Options', 'Exit to freeplay'];
+				menuItems = ['Resume', 'Restart Song', 'Chart Editor', 'Options', 'Exit to freeplay'];
 			}
 		}
 
@@ -53,7 +53,7 @@ class PauseSubState extends MusicBeatSubstate
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
 		bg.scrollFactor.set();
-		bg.scale.set(1/PlayState.camHUD.zoom, 1/PlayState.camHUD.zoom);
+		bg.scale.set(1, 1);
 		add(bg);
 
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
@@ -155,6 +155,8 @@ class PauseSubState extends MusicBeatSubstate
 				case "Restart Song":
 					GameOverSubstate.resetDeathStatus();
 					FlxG.resetState();
+				case 'Chart Editor':
+					FlxG.switchState(new meta.modding.chart_editor.ChartingState());
 				case "Options":
 					for (item in grpMenuShit.members)
 						{

@@ -238,6 +238,10 @@ class ScriptSupport
 		script.setVariable("isAndroid", #if android true #else false #end);
 		script.setVariable("isIOS", #if ios true #else false #end);
 		script.setVariable("TouchUtil", TouchUtil);
+		script.setVariable("mobilePad", playStated.mobilePad);
+		script.setVariable("hitbox", playStated.hitbox);
+		script.setVariable("hitbox_hint", playStated.hitbox_hint);
+		script.setVariable("mobileBackButton", playStated.mobileBackButton);
 
 		script.setVariable("addBackButton", function(?xPos:Float = 0, ?yPos:Float = 0, ?color:FlxColor = FlxColor.WHITE, ?confirmCallback:Void->Void = null,
 			?restOpacity:Float = 0.3, ?instant:Bool = false)

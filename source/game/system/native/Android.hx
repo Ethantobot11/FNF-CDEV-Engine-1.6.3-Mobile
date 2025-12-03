@@ -23,39 +23,39 @@ using StringTools;
  */
 class Android
 {
-    /**
-     * Returns FlxTouch, shortcut to `FlxG.touches.getFirst()`.
-     * @return FlxTouch
-     */
-    public static function touch():FlxTouch {
-        return (FlxG.touches.getFirst());
-    }
+	/**
+	 * Returns FlxTouch, shortcut to `FlxG.touches.getFirst()`.
+	 * @return FlxTouch
+	 */
+	public static function touch():FlxTouch {
+		return (FlxG.touches.getFirst());
+	}
 
-    /**
-     * Touch checker for `spr`, then runs `onTouch` function
-     * @param spr       Sprite that will be checked
-     * @param onTouch   Function that will be runned if Touch = true
-     */
-    public static function touchJustPressed(spr:FlxSprite, onTouch:Void -> Void) {
-        if (Android.touch()!=null){
-            var sprPos = spr.getScreenPosition(FlxG.camera);
-            var touchX = Android.touch().screenX;
-            var touchY = Android.touch().screenY;
-            var overlap:Bool = (touchX >= sprPos.x && touchX <= sprPos.x + spr.frameWidth
-            && touchY >= sprPos.y && touchY <= sprPos.y + spr.frameHeight);
-            if (overlap && Android.touch().justPressed){
-                onTouch();
-            }
-        }
-    }
+	/**
+	 * Touch checker for `spr`, then runs `onTouch` function
+	 * @param spr	   Sprite that will be checked
+	 * @param onTouch   Function that will be runned if Touch = true
+	 */
+	public static function touchJustPressed(spr:FlxSprite, onTouch:Void -> Void, ?fixedY:Float = 0) {
+		if (Android.touch()!=null){
+			var sprPos = spr.getScreenPosition(spr.camera);
+			var touchX = Android.touch().screenX;
+			var touchY = Android.touch().screenY + fixedY;
+			var overlap:Bool = (touchX >= sprPos.x && touchX <= sprPos.x + spr.frameWidth
+			&& touchY >= sprPos.y && touchY <= sprPos.y + spr.frameHeight);
+			if (overlap && Android.touch().justPressed){
+				onTouch();
+			}
+		}
+	}
 
-    /**
-     * Creates a toast text.
-     * @param text Message that will be shown.
-     */
-    public static function toast(text:String){
-        #if android
-        Toast.makeText(text, Toast.LENGTH_LONG);
-        #end
-    }
+	/**
+	 * Creates a toast text.
+	 * @param text Message that will be shown.
+	 */
+	public static function toast(text:String){
+		#if android
+		Toast.makeText(text, Toast.LENGTH_LONG);
+		#end
+	}
 }

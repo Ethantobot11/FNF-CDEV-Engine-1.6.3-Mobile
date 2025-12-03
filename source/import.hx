@@ -21,6 +21,7 @@ import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.input.touch.FlxTouch;
 import flixel.math.FlxPoint;
 import flixel.FlxSubState;
 import flixel.FlxObject;

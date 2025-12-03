@@ -15,7 +15,7 @@ class TouchUtil {
 	private static function get_ticksDeltaSincePress()
 		return FlxG.game.ticks - TouchUtil.touch.justPressedTimeInTicks;
 
-	public static function overlaps(object:FlxObject, ?camera:FlxCamera):Bool {
+	public static function overlaps(object:Dynamic, ?camera:FlxCamera):Bool {
 		for (touch in FlxG.touches.list)
 			if (touch.overlaps(object, camera ?? object.camera))
 				return true;

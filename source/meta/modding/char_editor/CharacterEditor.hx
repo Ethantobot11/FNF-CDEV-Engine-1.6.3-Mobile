@@ -204,6 +204,9 @@ class CharacterEditor extends meta.states.MusicBeatState
 		textAnim.cameras = [camHUD];
 		dumbTexts.cameras = [camHUD];
 		super.create();
+
+		addMobilePad('CHARACTER_EDITOR', 'CHARACTER_EDITOR');
+		addMobilePadCamera();
 	}
 
 	function createCameraPointer()
@@ -649,6 +652,13 @@ class CharacterEditor extends meta.states.MusicBeatState
 		uiBox.scrollFactor.set();
 	}
 
+	override public function closeSubState() {
+		super.closeSubState();
+		removeMobilePad();
+		addMobilePad('CHARACTER_EDITOR', 'CHARACTER_EDITOR');
+		addMobilePadCamera();
+	}
+
 	var typingShit2:FlxInputText;
 
 	function loadCharDropDown()
@@ -1041,8 +1051,8 @@ class CharacterEditor extends meta.states.MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		multiplier = (FlxG.keys.pressed.SHIFT ? 10 : 1);
-		camMulti = (FlxG.keys.pressed.SHIFT ? 5 : 1);
+		multiplier = ((FlxG.keys.pressed.SHIFT || mobilePad.buttonC.pressed) ? 10 : 1);
+		camMulti = ((FlxG.keys.pressed.SHIFT || mobilePad.buttonC.pressed) ? 5 : 1);
 		if (char.animation.curAnim != null && textAnim != null)
 			textAnim.text = char.animation.curAnim.name;
 
@@ -1067,28 +1077,28 @@ class CharacterEditor extends meta.states.MusicBeatState
 		if (!flxTypeTextOrSomething.contains(true))
 		{
 			var zoomAdd:Float = 500 * elapsed;
-			if (FlxG.keys.pressed.SHIFT)
+			if (FlxG.keys.pressed.SHIFT || mobilePad.buttonC.pressed)
 				zoomAdd *= 4;
 
 			if (FlxG.keys.justPressed.R)
 				FlxG.camera.zoom = 1;
-			if (FlxG.keys.pressed.I)
+			if (FlxG.keys.pressed.I || mobilePad.buttonUp2.pressed)
 				camFollow.y -= zoomAdd;
-			if (FlxG.keys.pressed.K)
+			if (FlxG.keys.pressed.K || mobilePad.buttonDown2.pressed)
 				camFollow.y += zoomAdd;
 
-			if (FlxG.keys.pressed.J)
+			if (FlxG.keys.pressed.J || mobilePad.buttonLeft2.pressed)
 				camFollow.x -= zoomAdd;
-			if (FlxG.keys.pressed.L)
+			if (FlxG.keys.pressed.L || mobilePad.buttonRight2.pressed)
 				camFollow.x += zoomAdd;
 
-			if (FlxG.keys.pressed.E && FlxG.camera.zoom < 3)
+			if ((FlxG.keys.pressed.E || mobilePad.buttonE.pressed) && FlxG.camera.zoom < 3)
 			{
 				FlxG.camera.zoom += elapsed * FlxG.camera.zoom;
 				if (FlxG.camera.zoom > 3)
 					FlxG.camera.zoom = 3;
 			}
-			if (FlxG.keys.pressed.Q && FlxG.camera.zoom > 0.1)
+			if ((FlxG.keys.pressed.Q || mobilePad.buttonQ.pressed) && FlxG.camera.zoom > 0.1)
 			{
 				FlxG.camera.zoom -= elapsed * FlxG.camera.zoom;
 				if (FlxG.camera.zoom < 0.1)
@@ -1120,10 +1130,10 @@ class CharacterEditor extends meta.states.MusicBeatState
 		{
 			if (!flxTypeTextOrSomething.contains(true))
 			{
-				if (FlxG.keys.justPressed.W)
+				if (FlxG.keys.justPressed.W || mobilePad.buttonV.justPressed)
 					curAnim -= 1;
 
-				if (FlxG.keys.justPressed.S)
+				if (FlxG.keys.justPressed.S || mobilePad.buttonD.justPressed)
 					curAnim += 1;
 
 				if (curAnim < 0)
@@ -1132,7 +1142,7 @@ class CharacterEditor extends meta.states.MusicBeatState
 				if (curAnim >= char.animArray.length)
 					curAnim = 0;
 
-				if (FlxG.keys.justPressed.ESCAPE)
+				if (FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end)
 				{
 					FlxG.camera.bgColor = 0xFF000000;
 					if (!moddingMode)
@@ -1148,7 +1158,8 @@ class CharacterEditor extends meta.states.MusicBeatState
 					}
 				}
 
-				if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE)
+				if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE ||
+					mobilePad.buttonD.justPressed || mobilePad.buttonV.justPressed || mobilePad.buttonA.justPressed)
 				{
 					char.playAnim(char.animArray[curAnim].animPrefix, true);
 					genBoyOffsets();
@@ -1158,7 +1169,11 @@ class CharacterEditor extends meta.states.MusicBeatState
 					FlxG.keys.justPressed.LEFT,
 					FlxG.keys.justPressed.RIGHT,
 					FlxG.keys.justPressed.UP,
-					FlxG.keys.justPressed.DOWN
+					FlxG.keys.justPressed.DOWN,
+					mobilePad.buttonLeft.justPressed,
+					mobilePad.buttonRight.justPressed,
+					mobilePad.buttonUp.justPressed,
+					mobilePad.buttonDown.justPressed
 				];
 				for (i in 0...controlArray.length)
 				{
@@ -1166,7 +1181,7 @@ class CharacterEditor extends meta.states.MusicBeatState
 					{
 						var arrayValue = 0;
 
-						if (i > 1)
+						if (i > 1 && i <= 3 || i> 5)
 							arrayValue = 1;
 
 						var negativeMult:Int = 1;
@@ -1284,6 +1299,9 @@ class CharacterEditorSaveDialog extends MusicBeatSubstate
 
 		// cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		exitButt.scrollFactor.set();
+
+		addMobilePad('NONE', 'A');
+		addMobilePadCamera();
 	}
 
 	var input_charName:FlxUIInputText;
@@ -1326,7 +1344,7 @@ class CharacterEditorSaveDialog extends MusicBeatSubstate
 				input_charName.caretIndex = input_charName.text.length;
 			}
 
-			if (FlxG.keys.justPressed.ENTER)
+			if (FlxG.keys.justPressed.ENTER || mobilePad.buttonA.pressed)
 			{
 				saveChar();
 				close();

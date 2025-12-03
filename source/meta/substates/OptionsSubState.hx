@@ -36,6 +36,8 @@ class OptionsSubState extends MusicBeatSubstate
 	public function new()
 	{
 		super();
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+
 		SettingsProperties.ON_PAUSE = true;
 		#if DISCORD_RPC
 		if (Main.discordRPC)
@@ -43,6 +45,7 @@ class OptionsSubState extends MusicBeatSubstate
 		#end
 
 		menuBG = new FlxSprite().loadGraphic(game.Paths.image('menuDesat'));
+		menuBG.scrollFactor.set();
 		menuBG.color = 0xff4da9ff;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
@@ -57,9 +60,11 @@ class OptionsSubState extends MusicBeatSubstate
 		for (i in 0...SettingsProperties.CURRENT_SETTINGS.length)
 		{
 			var text:FlxText = new FlxText(0,0,0, SettingsProperties.CURRENT_SETTINGS[i].name,38);
+			text.scrollFactor.set();
 			text.setFormat("wendy", 66, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
 			text.y = lengthy + ((66) * i) + 5;
 			text.screenCenter(X);
+			text.updateHitbox();
 			text.ID = i;
 			grpOptions.add(text);
 		}
@@ -74,8 +79,6 @@ class OptionsSubState extends MusicBeatSubstate
 		{
 			allowToPress = true;
 		});
-
-		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
 	override function closeSubState()
@@ -93,12 +96,13 @@ class OptionsSubState extends MusicBeatSubstate
 		{
 			Android.touchJustPressed(spr, function()
 			{
-				if (spr.ID != curSelected)
+				if (spr.ID != curSelected) {
 					changeSelection(spr.ID, true);
+				}
 				else {
 					if (allowToPress) onSelected();
 				}
-			});
+			}, 10);
 		});
 		#end
 

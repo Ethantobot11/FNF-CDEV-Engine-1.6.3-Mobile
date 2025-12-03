@@ -1042,4 +1042,13 @@ class Controls extends FlxActionSet
 
 		return bools.contains(true);
 	}
+	public var mobileControls(get, never):Bool;
+	@:noCompletion
+	private function get_mobileControls():Bool
+	{
+		if (CDevConfig.saveData.mobilePadAlpha >= 0.1)
+			return true;
+		else
+			return false;
+	}
 }

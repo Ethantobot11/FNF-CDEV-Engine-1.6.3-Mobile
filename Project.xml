@@ -217,6 +217,10 @@
 	<config:ios category_type="public.app-category.music-games" />
 	<config:mac category_type="public.app-category.music-games" />
 
+	<!-- Lime Fix -->
+	<haxedef name="lime_use_old_deltatime" />
+	<haxedef name="lime_disable_motion_sensors" />
+
 	<!-- _________________________________ Custom _______________________________ -->
 	<haxeflag name="-dce" value="no" /> <!--I wonder what this does-->
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->

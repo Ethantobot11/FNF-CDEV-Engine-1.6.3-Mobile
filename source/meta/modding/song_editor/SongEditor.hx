@@ -414,7 +414,7 @@ class SongEditor extends MusicBeatState
 		}
 
 
-		if (FlxG.keys.justPressed.ESCAPE && !exit)
+		if ((FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end) && !exit)
 		{
 			leave();
 		}

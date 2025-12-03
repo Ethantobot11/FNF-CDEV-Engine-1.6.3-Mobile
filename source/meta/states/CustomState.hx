@@ -205,6 +205,10 @@ class CustomState extends MusicBeatState
 		script.setVariable("isAndroid", #if android true #else false #end);
 		script.setVariable("isIOS", #if ios true #else false #end);
 		script.setVariable("TouchUtil", TouchUtil);
+		script.setVariable("mobilePad", mobilePad);
+		script.setVariable("hitbox", hitbox);
+		script.setVariable("hitbox_hint", hitbox_hint);
+		script.setVariable("mobileBackButton", mobileBackButton);
 
 		script.setVariable("addBackButton", function(?xPos:Float = 0, ?yPos:Float = 0, ?color:FlxColor = FlxColor.WHITE, ?confirmCallback:Void->Void = null,
 			?restOpacity:Float = 0.3, ?instant:Bool = false)

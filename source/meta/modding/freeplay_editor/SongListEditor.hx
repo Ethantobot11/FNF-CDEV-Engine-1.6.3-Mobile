@@ -256,7 +256,7 @@ class SongListEditor extends MusicBeatState
 		if (updating)
 			return;
 
-		if (FlxG.keys.justPressed.ESCAPE)
+		if (FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end)
 		{
 			FlxG.switchState(new ModdingScreen());
 		}
@@ -516,7 +516,7 @@ class NewSongSubstate extends MusicBeatSubstate
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if (FlxG.keys.justPressed.ESCAPE)
+		if (FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end)
 			close();
 
 		for (obj in [input_songName, input_character]){
