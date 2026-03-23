@@ -11,8 +11,8 @@ jobs:
           - name: iOS
             os: macos-15
             buildArgs: "ios -final -nosign"
-            artifactName: iOSBuild
             setupCommand: sh ./setup/unix.sh
+            artifactName: iOSBuild
             artifactPath: "export/release/ios/build/Release-iphoneos/*.ipa"
     uses: ./.github/workflows/build.yml
     with:
