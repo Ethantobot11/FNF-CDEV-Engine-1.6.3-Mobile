@@ -68,7 +68,7 @@
 	<haxelib name="DISCORD_RPC" if="desktop"/>
 
 	<section if="USE_VIDEOS">
-		<haxelib name="hxCodec"/>
+		<haxelib name="hxvlc"/>
 	</section>
 	
 	<section if="PRELOAD_ALL">
